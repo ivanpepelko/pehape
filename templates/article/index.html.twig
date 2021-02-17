@@ -23,7 +23,7 @@
                     <td>{{ article.title }}</td>
                     <td>{{ article.description }}</td>
                     <td>{{ article.body|u.truncate(20, '...') }}</td>
-                    <td>{{ article.releaseDate ? article.releaseDate|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ article.releaseDate ? article.releaseDate|date('d.m.Y H:i:s') : '' }}</td>
                     <td>{{ article.draft ? 'Da' : 'Ne' }}</td>
                     <td>{{ article.owner.username }}</td>
                     <td>

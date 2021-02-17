@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Article{% endblock %}
+
+{% block body %}
+    <h1>Izmjena članka</h1>
+
+    {{ include('article/_form.html.twig', {'button_label': 'Spremi'}) }}
+
+    {% if is_granted('ROLE_SUPERADMIN') or (is_granted('ROLE_ADMIN') and app.user == article.owner) %}
+        {{ include('article/_delete_form.html.twig') }}
+    {% endif %}
+
+    <a href="{{ path('article_index') }}">povratak na listu</a>
+{% endblock %}

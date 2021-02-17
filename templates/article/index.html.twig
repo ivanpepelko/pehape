@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article index{% endblock %}
+
+{% block body %}
+    <h1>Članci</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Naslov</th>
+                <th>Opis</th>
+                <th>Tekst</th>
+                <th>Datum izdavanja</th>
+                <th>U pripremi</th>
+                <th>Izradio</th>
+                <th>akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for article in articles %}
+                <tr>
+                    <td>{{ article.title }}</td>
+                    <td>{{ article.description }}</td>
+                    <td>{{ article.body|u.truncate(20, '...') }}</td>
+                    <td>{{ article.releaseDate ? article.releaseDate|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ article.draft ? 'Da' : 'Ne' }}</td>
+                    <td>{{ article.owner.username }}</td>
+                    <td>
+                        <a href="{{ path('article_show', {'id': article.id}) }}">prikaži</a>
+                        {% if is_granted('ROLE_SUPERADMIN') or (is_granted('ROLE_ADMIN') and app.user == article.owner) %}
+                            <a href="{{ path('article_edit', {'id': article.id}) }}">izmjena</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">nema članaka</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('article_new') }}">Novi članak</a>
+{% endblock %}

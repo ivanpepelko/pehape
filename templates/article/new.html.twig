@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Article{% endblock %}
+
+{% block body %}
+    <h1>Novi članak</h1>
+
+    {{ include('article/_form.html.twig') }}
+
+    <a href="{{ path('article_index') }}">povratak na listu</a>
+{% endblock %}

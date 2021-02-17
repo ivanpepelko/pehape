@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+    mariadb:
+        image: mariadb
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: pehape
+        volumes:
+            - ./var/data/mysql:/var/lib/mysql
+        network_mode: host
+
+    php:
+        build:
+            context: .
+        working_dir: /app
+        volumes:
+            - .:/app
+        entrypoint: [ 'php', '-S', '0.0.0.0:8080', '-t', 'public' ]
+        expose:
+            - 8080
+        network_mode: host

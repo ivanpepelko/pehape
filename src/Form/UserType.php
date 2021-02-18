@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\User;
-use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Event\PostSubmitEvent;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -37,14 +36,20 @@ class UserType extends AbstractType
     {
         $builder->addEventListener(
             FormEvents::POST_SUBMIT,
-            function (PostSubmitEvent $event, string $eventName, EventDispatcherInterface $dispatcher) {
+            function (PostSubmitEvent $event) {
                 $role = $event->getForm()->get('control_level')->getData();
 
-                if ($this->authorizationChecker->isGranted($role)) {
-                    /** @var User $user */
-                    $user = $event->getData();
-                    $user->setRoles([$role]);
+                /** @var User $user */
+                $user = $event->getData();
+                $previousRoles = $user->getRoles();
+
+                foreach ($previousRoles as $previousRole) {
+                    if (!$this->authorizationChecker->isGranted($previousRole)) {
+                        return;
+                    }
                 }
+
+                $user->setRoles([$role]);
             }
         );
 

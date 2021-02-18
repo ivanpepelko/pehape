@@ -3,6 +3,14 @@
 {% block title %}New Article{% endblock %}
 
 {% block body %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('index') }}">/pehape</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('question_index') }}">Članci</a></li>
+            <li class="breadcrumb-item active">Novi članak</li>
+        </ol>
+    </nav>
+
     <h1>Novi članak</h1>
 
     {{ include('article/_form.html.twig') }}

@@ -3,6 +3,13 @@
 {% block title %}User index{% endblock %}
 
 {% block body %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('index') }}">/pehape</a></li>
+            <li class="breadcrumb-item active">Korisnici</li>
+        </ol>
+    </nav>
+
     <h1>Korisnici</h1>
 
     <table class="table">

@@ -3,6 +3,13 @@
 {% block title %}Edit User{% endblock %}
 
 {% block body %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('index') }}">/pehape</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('user_index') }}">Korisnici</a></li>
+            <li class="breadcrumb-item active">Izmjena: {{ user.username }}</li>
+        </ol>
+    </nav>
     <h1>Izmjena korisnika</h1>
 
     {{ include('user/_form.html.twig', {'button_label': 'Spremi'}) }}

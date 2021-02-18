@@ -3,6 +3,14 @@
 {% block title %}Edit Article{% endblock %}
 
 {% block body %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('index') }}">/pehape</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('article_index') }}">Članci</a></li>
+            <li class="breadcrumb-item active">{{ article.title }}</li>
+        </ol>
+    </nav>
+
     <h1>Izmjena članka</h1>
 
     {{ include('article/_form.html.twig', {'button_label': 'Spremi'}) }}

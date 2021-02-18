@@ -17,7 +17,7 @@ class ArticleType extends AbstractType
             ->add('title', null, ['label' => 'Naslov'])
             ->add('description', null, ['label' => 'Opis'])
             ->add('body', null, ['label' => 'Tekst'])
-            ->add('releaseDate', DateTimeType::class, ['html5' => true, 'widget' => 'single_text'])
+            ->add('releaseDate', DateTimeType::class, ['html5' => true, 'widget' => 'single_text', 'required' => false])
             ->add('draft', null, ['label' => 'U pripremi'])
             ->add(
                 'gallery',

@@ -37,8 +37,8 @@
                         {% endif %}
                     </ul>
 
-                    <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Pretraga" aria-label="Search">
+                    <form class="d-flex" action="{{ path('search') }}">
+                        <input class="form-control me-2" type="search" placeholder="Pretraga" aria-label="Pretraga" name="q">
                         <button class="btn btn-outline-dark" type="submit">Pretraga</button>
                     </form>
 

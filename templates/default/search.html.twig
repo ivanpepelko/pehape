@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}/pehape{% endblock %}
+
+{% block body %}
+    <h1>
+        Rezultati pretrage
+        <br>
+        <small class="text-muted">Pronađeno {{ search_results.totalCount }} rezultat(a)</small>
+    </h1>
+
+    <ul class="nav nav-tabs" id="searchResults" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="articles-tab" data-bs-toggle="tab" data-bs-target="#articles" type="button" role="tab" aria-controls="articles" aria-selected="true">
+                Članci ({{ search_results.articles|length }})
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="questions-tab" data-bs-toggle="tab" data-bs-target="#questions" type="button" role="tab" aria-controls="questions" aria-selected="false">
+                Upiti ({{ search_results.questions|length }})
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="answers-tab" data-bs-toggle="tab" data-bs-target="#answers" type="button" role="tab" aria-controls="answers" aria-selected="false">
+                Odgovori ({{ search_results.answers|length }})
+            </button>
+        </li>
+        {% if is_granted('ROLE_ADMIN') %}
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="galleries-tab" data-bs-toggle="tab" data-bs-target="#galleries" type="button" role="tab" aria-controls="galleries" aria-selected="false">
+                    Galerije ({{ search_results.galleries|length }})
+                </button>
+            </li>
+        {% endif %}
+    </ul>
+
+    <div class="tab-content" id="searchResultsContent">
+        <div class="tab-pane fade show active" id="articles" role="tabpanel" aria-labelledby="articles-tab">
+            {% for article in search_results.articles %}
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ article.title }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ article.description }}</h6>
+                        <p class="card-text">{{ article.body|u.truncate(200, '...') }}</p>
+                        <a href="{{ path('article_show', { id: article.id }) }}" class="card-link">Vidi članak</a>
+                    </div>
+                </div>
+            {% else %}
+                <div class="card">
+                    <div class="card-body">
+                        Nema rezultata
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="tab-pane fade" id="questions" role="tabpanel" aria-labelledby="questions-tab">
+            {% for question in search_results.questions %}
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ question.subject }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Odgovora: {{ question.answers|length }}</h6>
+                        <p class="card-text">{{ question.body|u.truncate(200, '...') }}</p>
+                        <a href="{{ path('question_show', { id: question.id }) }}" class="card-link">Idi na pitanje</a>
+                    </div>
+                </div>
+            {% else %}
+                <div class="card">
+                    <div class="card-body">
+                        Nema rezultata
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="tab-pane fade" id="answers" role="tabpanel" aria-labelledby="answers-tab">
+            {% for answer in search_results.answers %}
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ answer.question.subject }}</h5>
+                        <p class="card-text">{{ answer.body|u.truncate(200, '...') }}</p>
+                        <a href="{{ path('question_show', { id: answer.question.id }) }}" class="card-link">Idi na pitanje</a>
+                    </div>
+                </div>
+            {% else %}
+                <div class="card">
+                    <div class="card-body">
+                        Nema rezultata
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="tab-pane fade" id="galleries" role="tabpanel" aria-labelledby="galleries-tab">
+                {% for gallery in search_results.galleries %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ gallery.title }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Slika: {{ gallery.images|length }}</h6>
+                            <a href="{{ path('gallery_edit', { id: gallery.id }) }}" class="card-link">Idi na galeriju</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="card">
+                        <div class="card-body">
+                            Nema rezultata
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}

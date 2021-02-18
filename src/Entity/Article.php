@@ -54,6 +54,11 @@ class Article
      */
     private $gallery;
 
+    public function __construct()
+    {
+        $this->releaseDate ??= new DateTime();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

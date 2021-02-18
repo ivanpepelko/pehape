@@ -1,17 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DefaultController!{% endblock %}
+{% block title %}/pehape{% endblock %}
 
 {% block body %}
-    <h1>Hello {{ controller_name }}! ✅</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at
-            <code><a href="{{ '/home/ivanpepelko/IdeaProjects/pehape/src/Controller/DefaultController.php'|file_link(0) }}">src/Controller/DefaultController.php</a></code>
-        </li>
-        <li>Your template at
-            <code><a href="{{ '/home/ivanpepelko/IdeaProjects/pehape/templates/default/index.html.twig'|file_link(0) }}">templates/default/index.html.twig</a></code>
-        </li>
-    </ul>
+    {% for article in articles %}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ article.title }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ article.description }}</h6>
+                <p class="card-text">{{ article.body|u.truncate(200, '...') }}</p>
+                <a href="{{ path('article_show', { id : article.id }) }}">Vidi članak</a>
+            </div>
+        </div>
+    {% else %}
+        Još nema članaka
+    {% endfor %}
+
 {% endblock %}

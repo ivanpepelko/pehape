@@ -19,32 +19,23 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
-    // /**
-    //  * @return Article[] Returns an array of Article objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param int $offset
+     * @param int $limit
+     *
+     * @return iterable<Article>
+     */
+    public function getIndexArticles(int $offset, int $limit = 10): iterable
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $qb = $this->createQueryBuilder('a');
 
-    /*
-    public function findOneBySomeField($value): ?Article
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $qb->where($qb->expr()->eq('a.draft', ':draft'))
+                  ->setParameter('draft', false)
+                  ->andWhere($qb->expr()->gte('a.releaseDate', ':release'))
+                  ->setParameter('release', 'CURRENT_TIMESTAMP()')
+                  ->setMaxResults($limit)
+                  ->setFirstResult($offset)
+                  ->getQuery()
+                  ->getResult();
     }
-    */
 }

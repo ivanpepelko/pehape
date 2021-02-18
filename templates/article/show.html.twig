@@ -1,40 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Article{% endblock %}
+{% block title %}{{ article.title }}{% endblock %}
 
 {% block body %}
-    <h1>{{ article.title }}</h1>
+    <h1 class="display-1">{{ article.title }}</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ article.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ article.title }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ article.description }}</td>
-            </tr>
-            <tr>
-                <th>Body</th>
-                <td>{{ article.body }}</td>
-            </tr>
-            <tr>
-                <th>ReleaseDate</th>
-                <td>{{ article.releaseDate ? article.releaseDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Draft</th>
-                <td>{{ article.draft ? 'Yes' : 'No' }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <h3>
+        {{ article.description }}
+        <small class="text-muted">Objavljeno: {{ article.releaseDate|date('d.m.Y H:i:s') }}</small>
+    </h3>
+    <h4>Objavio: {{ article.owner.username }}</h4>
 
-    <a href="{{ path('article_index') }}">povratak na listu</a>
+    <p>
+        {{ article.body }}
+    </p>
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <a href="{{ path('article_index') }}">povratak na listu</a>
+    {% endif %}
 
     {% if is_granted('ROLE_SUPERADMIN') or (is_granted('ROLE_ADMIN') and app.user == article.owner) %}
         <a href="{{ path('article_edit', {'id': article.id}) }}">izmjena</a>

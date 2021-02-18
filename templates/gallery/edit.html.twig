@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Izmjena galerije{% endblock %}
+
+{% block body %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('index') }}">/pehape</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('gallery_index') }}">Galerije</a></li>
+            <li class="breadcrumb-item active">{{ gallery.title }}</li>
+        </ol>
+    </nav>
+
+    <h1>Izmjena galerije</h1>
+
+    {{ include('gallery/_form.html.twig', {'button_label': 'Spremi'}) }}
+    {{ include('gallery/_delete_form.html.twig') }}
+
+    {{ form(imageUploadForm) }}
+
+    <a href="{{ path('gallery_index') }}">povratak na listu</a>
+    <hr>
+
+    <div id="carouselGallery" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            {% for image in gallery.images %}
+                <button type="button" data-bs-target="#carouselGallery" data-bs-slide-to="{{ loop.index0 }}"
+                        {% if loop.first %}class="active" aria-current="true"{% endif %}
+                        aria-label="Slide {{ loop.index }}"></button>
+            {% endfor %}
+        </div>
+        <div class="carousel-inner">
+            {% for image in gallery.images %}
+                <div class="carousel-item {{ loop.first ? 'active' }}">
+                    <img src="{{ image.path }}" class="d-block w-100" alt="Preview">
+                </div>
+            {% endfor %}
+
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselGallery" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselGallery" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+{% endblock %}

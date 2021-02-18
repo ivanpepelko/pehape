@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nova galerija{% endblock %}
+
+{% block body %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('index') }}">/pehape</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('gallery_index') }}">Galerije</a></li>
+            <li class="breadcrumb-item active">Nova galerija</li>
+        </ol>
+    </nav>
+
+    <h1>Nova galerija</h1>
+
+    {{ include('gallery/_form.html.twig') }}
+
+    <a href="{{ path('gallery_index') }}">povratak na listu</a>
+{% endblock %}

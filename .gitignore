@@ -1,5 +1,6 @@
 *.iml
 /.idea
+/public/img/upload
 
 ###> symfony/framework-bundle ###
 /.env.local

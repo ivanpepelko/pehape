@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Galerije{% endblock %}
+
+{% block body %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('index') }}">/pehape</a></li>
+            <li class="breadcrumb-item">Galerije</li>
+        </ol>
+    </nav>
+
+    <h1>Galerije</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Naslov</th>
+                <th>Broj slika</th>
+                <th>akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for gallery in galleries %}
+                <tr>
+                    <td>{{ gallery.title }}</td>
+                    <td>{{ gallery.images.count }}</td>
+                    <td>
+                        <a href="{{ path('gallery_edit', {'id': gallery.id}) }}">izmjena/upload</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">nema podataka</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('gallery_new') }}">Kreiraj novu</a>
+{% endblock %}

@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('gallery_delete', {'id': gallery.id}) }}" onsubmit="return confirm('Jeste li sigurni da želite obrisati galeriju?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ gallery.id) }}">
+    <button class="btn btn-danger">Obriši</button>
+</form>

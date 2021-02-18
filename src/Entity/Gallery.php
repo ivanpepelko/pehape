@@ -25,7 +25,7 @@ class Gallery
     private $title;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Image::class)
+     * @ORM\ManyToMany(targetEntity=Image::class, cascade={"persist"})
      */
     private $images;
 

@@ -14,12 +14,30 @@ class DefaultController extends AbstractController
 {
     #[Route('/', name: 'index')]
     public function index(
-        ArticleRepository $articleRepository
+        Request $request,
+        ArticleRepository $articleRepository,
     ): Response {
+        $totalCount = $articleRepository->getTotalCount();
+
+        $offset = $request->query->getInt('offset');
+        if ($offset < 0) {
+            $offset = 0;
+        }
+
+        if ($offset > $totalCount) {
+            $offset = intdiv($totalCount, 10) * 10;
+        }
+
+        if ($offset % 10 !== 0) {
+            $offset = intdiv($offset, 10) * 10;
+        }
+
         return $this->render(
             'default/index.html.twig',
             [
-                'articles' => $articleRepository->getIndexArticles(0),
+                'articles' => $articleRepository->getIndexArticles($offset),
+                'count'    => $totalCount,
+                'offset'   => $offset,
             ]
         );
     }

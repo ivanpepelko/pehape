@@ -38,4 +38,17 @@ class ArticleRepository extends ServiceEntityRepository
                   ->getQuery()
                   ->getResult();
     }
+
+    public function getTotalCount()
+    {
+        $qb = $this->createQueryBuilder('a');
+
+        return $qb->select('COUNT(a)')
+                  ->where($qb->expr()->eq('a.draft', ':draft'))
+                  ->setParameter('draft', false)
+                  ->andWhere($qb->expr()->gte('a.releaseDate', ':release'))
+                  ->setParameter('release', 'CURRENT_TIMESTAMP()')
+                  ->getQuery()
+                  ->getSingleScalarResult();
+    }
 }

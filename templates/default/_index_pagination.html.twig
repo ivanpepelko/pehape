@@ -1,0 +1,24 @@
+<nav aria-label="Pagination">
+    <ul class="pagination">
+        {% if offset == 0 %}
+            <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
+        {% else %}
+            <li class="page-item"><a class="page-link" href="{{ path('index', { offset: offset-10 }) }}">&laquo;</a></li>
+        {% endif %}
+
+        {% if count <= 10 %}
+            <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+        {% else %}
+            {% for i in range(0, count, 10) %}
+                <li class="page-item {{ offset == i ? 'active' }}"><a class="page-link" href="{{ path('index', { offset: i }) }}">{{ loop.index }}</a></li>
+            {% endfor %}
+        {% endif %}
+
+        {% if count <= 10 %}
+            <li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
+        {% else %}
+            <li class="page-item"><a class="page-link" href="{{ path('index', { offset: offset+10 }) }}">&raquo;</a></li>
+        {% endif %}
+
+    </ul>
+</nav>

@@ -4,6 +4,10 @@
 
 {% block body %}
 
+    <div class="mt-1">
+        {% include 'default/_index_pagination.html.twig' with { offset: offset, count: count} %}
+    </div>
+
     {% for article in articles %}
         <div class="card">
             <div class="card-body">
@@ -13,8 +17,13 @@
                 <a href="{{ path('article_show', { id : article.id }) }}">Vidi članak</a>
             </div>
         </div>
+
+        <hr>
+
     {% else %}
         Još nema članaka
     {% endfor %}
+
+    {% include 'default/_index_pagination.html.twig' with { offset: offset, count: count} %}
 
 {% endblock %}

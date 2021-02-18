@@ -1,11 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Question{% endblock %}
+{% block title %}Novi upit{% endblock %}
 
 {% block body %}
-    <h1>Create new Question</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('index') }}">/pehape</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('question_index') }}">Upiti</a></li>
+            <li class="breadcrumb-item active">Novi upit</li>
+        </ol>
+    </nav>
+
+    <h1>Novi upit</h1>
 
     {{ include('question/_form.html.twig') }}
 
-    <a href="{{ path('question_index') }}">back to list</a>
+    <a href="{{ path('question_index') }}">vidi sve upite</a>
 {% endblock %}

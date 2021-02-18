@@ -1,30 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Question{% endblock %}
+{% block title %}Upit{% endblock %}
 
 {% block body %}
-    <h1>Question</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('index') }}">/pehape</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('question_index') }}">Upiti</a></li>
+            <li class="breadcrumb-item active">{{ question.subject }}</li>
+        </ol>
+    </nav>
+
+    <h1>Upit</h1>
 
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ question.id }}</td>
-            </tr>
-            <tr>
-                <th>Subject</th>
+                <th>Naslov</th>
                 <td>{{ question.subject }}</td>
             </tr>
             <tr>
-                <th>Body</th>
+                <th>Tekst</th>
                 <td>{{ question.body }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('question_index') }}">back to list</a>
+    <a href="{{ path('question_index') }}">povratak na listu</a>
 
-    <a href="{{ path('question_edit', {'id': question.id}) }}">edit</a>
+    <a href="{{ path('question_edit', {'id': question.id}) }}">izmjena</a>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        {{ form(form) }}
+    {% endif %}
+
+    <hr>
+
+    {% for answer in answers %}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ answer.user.username }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ answer.dateTime|date('d.m.y H:i:s') }}</h6>
+                <p class="card-text">{{ answer.body }}</p>
+            </div>
+        </div>
+    {% else %}
+        <span>Još nema odgovora...</span>
+    {% endfor %}
 
     {{ include('question/_delete_form.html.twig') }}
 {% endblock %}

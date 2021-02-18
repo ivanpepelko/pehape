@@ -1,28 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Question index{% endblock %}
+{% block title %}Upiti{% endblock %}
 
 {% block body %}
-    <h1>Question index</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('index') }}">/pehape</a></li>
+            <li class="breadcrumb-item">Upiti</li>
+        </ol>
+    </nav>
+
+    <h1>Upiti</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Subject</th>
-                <th>Body</th>
-                <th>actions</th>
+                <th>Naslov</th>
+                <th>Datum</th>
+                <th>Korisnik</th>
+                <th>akcije</th>
             </tr>
         </thead>
         <tbody>
             {% for question in questions %}
                 <tr>
-                    <td>{{ question.id }}</td>
                     <td>{{ question.subject }}</td>
-                    <td>{{ question.body }}</td>
+                    <td>{{ question.dateTime|date('d.m.Y H:i:s') }}</td>
+                    <td>{{ question.user.username }}</td>
                     <td>
-                        <a href="{{ path('question_show', {'id': question.id}) }}">show</a>
-                        <a href="{{ path('question_edit', {'id': question.id}) }}">edit</a>
+                        <a href="{{ path('question_show', {'id': question.id}) }}">prikaži</a>
+                        {% if is_granted('ROLE_SUPERADMIN') or app.user.username == question.user.username %}
+                            <a href="{{ path('question_edit', {'id': question.id}) }}">izmjena</a>
+                        {% endif %}
                     </td>
                 </tr>
             {% else %}
@@ -33,5 +42,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('question_new') }}">Create new</a>
+
 {% endblock %}

@@ -1,13 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Question{% endblock %}
+{% block title %}Izmjena upita{% endblock %}
 
 {% block body %}
-    <h1>Edit Question</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('index') }}">/pehape</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('question_index') }}">Upiti</a></li>
+            <li class="breadcrumb-item active">{{ question.subject }}</li>
+        </ol>
+    </nav>
+
+    <h1>Izmjena upita</h1>
 
     {{ include('question/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('question_index') }}">back to list</a>
-
     {{ include('question/_delete_form.html.twig') }}
+
+    <a href="{{ path('question_index') }}">Svi upiti</a>
 {% endblock %}

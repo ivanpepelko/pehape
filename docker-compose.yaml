@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
     mariadb:
-        image: mariadb
+        image: mariadb:10.5.8
         environment:
             MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
             MYSQL_ROOT_PASSWORD: root

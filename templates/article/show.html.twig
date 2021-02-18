@@ -11,9 +11,45 @@
     </h3>
     <h4>Objavio: {{ article.owner.username }}</h4>
 
+    <hr>
+
     <p>
         {{ article.body }}
     </p>
+
+    <hr>
+
+    {% if article.gallery %}
+        <h3>Galerija</h3>
+
+        <div id="carouselGallery" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                {% for image in article.gallery.images %}
+                    <button type="button" data-bs-target="#carouselGallery" data-bs-slide-to="{{ loop.index0 }}"
+                            {% if loop.first %}class="active" aria-current="true"{% endif %}
+                            aria-label="Slide {{ loop.index }}"></button>
+                {% endfor %}
+            </div>
+            <div class="carousel-inner">
+                {% for image in article.gallery.images %}
+                    <div class="carousel-item {{ loop.first ? 'active' }}">
+                        <img src="{{ image.path }}" class="d-block w-100" alt="Preview">
+                    </div>
+                {% endfor %}
+
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselGallery" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselGallery" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+        <hr>
+    {% endif %}
 
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <a href="{{ path('article_index') }}">povratak na listu</a>

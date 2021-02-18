@@ -56,8 +56,10 @@ class SearchService
                       )
                   )
                   ->setParameter('term', "%$term%")
-                  ->andWhere($qb->expr()->eq('a.draft', 0))
-                  ->andWhere($qb->expr()->gte('a.releaseDate', 'CURRENT_TIMESTAMP()'))
+                  ->andWhere($qb->expr()->eq('a.draft', ':draft'))
+                  ->setParameter('draft', false)
+                  ->andWhere($qb->expr()->gte('a.releaseDate', ':release'))
+                  ->setParameter('release', 'CURRENT_TIMESTAMP()')
                   ->getQuery()
                   ->getResult();
     }

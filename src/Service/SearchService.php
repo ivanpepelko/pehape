@@ -8,7 +8,7 @@ use App\Entity\Gallery;
 use App\Entity\Question;
 use App\Model\SearchResults;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * @author Ivan Pepelko <ivan.pepelko@gmail.com>
@@ -17,9 +17,12 @@ class SearchService
 {
     private EntityManagerInterface $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator)
+    private AuthorizationCheckerInterface $authorizationChecker;
+
+    public function __construct(EntityManagerInterface $entityManager, AuthorizationCheckerInterface $authorizationChecker)
     {
         $this->entityManager = $entityManager;
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     public function getResults(string $term): SearchResults
@@ -37,7 +40,7 @@ class SearchService
     /**
      * @param string $term
      *
-     * @return iterable
+     * @return iterable<Article>
      */
     private function searchArticles(string $term): iterable
     {
@@ -59,6 +62,11 @@ class SearchService
                   ->getResult();
     }
 
+    /**
+     * @param string $term
+     *
+     * @return iterable<Question>
+     */
     private function searchQuestions(string $term): iterable
     {
         $qb = $this->entityManager->createQueryBuilder();
@@ -76,6 +84,11 @@ class SearchService
                   ->getResult();
     }
 
+    /**
+     * @param string $term
+     *
+     * @return iterable<Answer>
+     */
     private function searchAnswers(string $term): iterable
     {
         $qb = $this->entityManager->createQueryBuilder();
@@ -88,8 +101,17 @@ class SearchService
                   ->getResult();
     }
 
+    /**
+     * @param string $term
+     *
+     * @return iterable<Gallery>
+     */
     private function searchGalleries(string $term): iterable
     {
+        if (!$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
+            return [];
+        }
+
         $qb = $this->entityManager->createQueryBuilder();
 
         return $qb->select('g')

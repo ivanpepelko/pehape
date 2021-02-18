@@ -19,6 +19,15 @@ class RegistrationController extends AbstractController
         UserPasswordEncoderInterface $passwordEncoder,
         EntityManagerInterface $entityManager
     ): Response {
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $referer = $request->server->get('HTTP_REFERER');
+            if ($referer !== null) {
+                return $this->redirect($referer);
+            }
+
+            return $this->redirectToRoute('index');
+        }
+
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);

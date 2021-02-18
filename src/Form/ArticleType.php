@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Article;
+use App\Entity\Gallery;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,7 +19,16 @@ class ArticleType extends AbstractType
             ->add('body', null, ['label' => 'Tekst'])
             ->add('releaseDate', DateTimeType::class, ['html5' => true, 'widget' => 'single_text'])
             ->add('draft', null, ['label' => 'U pripremi'])
-            ->add('gallery', null, ['label' => 'Galerija']);
+            ->add(
+                'gallery',
+                null,
+                [
+                    'label'        => 'Galerija',
+                    'class'        => Gallery::class,
+                    'choice_label' => 'title',
+                    'required'     => false,
+                ]
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver)
